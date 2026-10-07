@@ -62,7 +62,7 @@ c2.metric(f"ผลรวม {kpi_col}", f"{df[kpi_col].sum():,.1f}")
 c3.metric(f"ค่าเฉลี่ย {kpi_col}", f"{df[kpi_col].mean():,.1f}")
 
 with st.expander("ดูตารางข้อมูล"):
-    st.dataframe(df, use_container_width=True)
+    st.dataframe(df, width="stretch")
 
 # ---------- Chart 1: Bar ----------
 st.subheader("กราฟที่ 1: เปรียบเทียบตามหมวดหมู่ (Bar chart)")
