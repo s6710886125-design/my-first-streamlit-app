@@ -32,6 +32,9 @@ else:
     df = load(up)
 
 df.columns = [str(c).strip() for c in df.columns]
+for c in df.columns:
+    if "ปี" in c:
+        df[c] = df[c].astype(str)
 num_cols = df.select_dtypes("number").columns.tolist()
 cat_cols = [c for c in df.columns if c not in num_cols]
 
@@ -52,7 +55,7 @@ if num_cols:
     c3.metric(f"ผลรวม {num_cols[0]}", f"{df[num_cols[0]].sum():,.0f}")
 
 with st.expander("ดูตารางข้อมูล"):
-    st.dataframe(df, width="stretch")
+    st.dataframe(df)
 
 # ---------- Chart 1: Bar ----------
 st.subheader("กราฟที่ 1: Bar chart")
@@ -65,7 +68,7 @@ if cat_cols:
         g = df[x].value_counts().head(20).reset_index()
         g.columns = [x, "count"]
         y = "count"
-    st.plotly_chart(px.bar(g, x=x, y=y, color=y), width="stretch")
+    st.plotly_chart(px.bar(g, x=x, y=y, color=y))
 
 # ---------- Chart 2: Line / Histogram ----------
 st.subheader("กราฟที่ 2: Line / Histogram")
@@ -77,6 +80,6 @@ if num_cols:
     else:
         xcol = st.selectbox("แกน X", df.columns.tolist(), key="lx")
         fig = px.line(df.sort_values(xcol), x=xcol, y=v)
-    st.plotly_chart(fig, width="stretch")
+    st.plotly_chart(fig)
 else:
     st.warning("ไม่พบคอลัมน์ตัวเลขสำหรับกราฟที่ 2")
